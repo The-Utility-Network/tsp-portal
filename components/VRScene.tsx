@@ -183,8 +183,8 @@ const VRScene: React.FC<VRSceneProps> = ({ onLoad, vrEnabled }) => {
         embedded
         detect-user-interaction
         vr-mode-ui="enabled: false"
-        device-orientation-permission-ui="allowButtonText: 'Enable Motion'; denyButtonText: 'No Thanks'; cancelButtonText: 'Cancel'; deviceMotionMessage: 'Please allow access to device motion for a full VR experience.'; httpsMessage: 'This experience requires HTTPS for full functionality.'"
-        background="color: #d813ff"
+        device-orientation-permission-ui="allowButtonText: 'ACTIVATE SENSORS'; denyButtonText: 'SKIP VR'; cancelButtonText: 'CANCEL'; deviceMotionMessage: 'SATELLITE INITIALIZATION: PLEASE ENABLE MOTION SENSORS FOR FULL SPATIAL IMMERSION.'; httpsMessage: 'SECURE CONNECTION REQUIRED FOR NEURAL LINK.'"
+        background="color: #000000"
         style={{ width: '100%', height: '100vh' }}
       >
         <Entity
@@ -210,15 +210,15 @@ const VRScene: React.FC<VRSceneProps> = ({ onLoad, vrEnabled }) => {
       <CustomVRButton />
       {showCountdown && (
         <div className="countdown-overlay">
-          <p className="countdown-text">Setting up VR in {countdown}…</p>
-          <button className="skip-button" onClick={() => {
+          <p className="countdown-text font-rajdhani">ORBITAL SYNC IN {countdown}…</p>
+          <button className="skip-button font-rajdhani" onClick={() => {
             if (!onLoadCalled.current) {
               onLoadCalled.current = true;
               onLoad();
             }
             setShowCountdown(false);
           }}>
-            Skip
+            INITIALIZE NOW
           </button>
         </div>
       )}
@@ -228,12 +228,23 @@ const VRScene: React.FC<VRSceneProps> = ({ onLoad, vrEnabled }) => {
           bottom: 20px;
           right: 20px;
           padding: 0.75rem 1.5rem;
-          background-color: #d813ff;
-          color: #fff;
-          border: none;
+          background-color: #00ccff;
+          color: #000;
+          border: 1px solid rgba(255, 255, 255, 0.4);
           border-radius: 4px;
           cursor: pointer;
           z-index: 9999;
+          font-family: var(--font-rajdhani), sans-serif;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          backdrop-filter: blur(10px);
+          transition: all 0.3s ease;
+        }
+        .custom-vr-button:hover {
+          background-color: #d813ff;
+          color: #fff;
+          box-shadow: 0 0 20px rgba(216, 19, 255, 0.5);
         }
         .loading-modal {
           position: fixed;
@@ -241,9 +252,9 @@ const VRScene: React.FC<VRSceneProps> = ({ onLoad, vrEnabled }) => {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #d813ff;
-          color: #000;
-          font-family: sans-serif;
+          background: #000;
+          color: #00ccff;
+          font-family: var(--font-rajdhani), sans-serif;
           z-index: 9999;
         }
         .countdown-overlay {
@@ -251,57 +262,101 @@ const VRScene: React.FC<VRSceneProps> = ({ onLoad, vrEnabled }) => {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          background: linear-gradient(45deg, #ff416c, #ff4b2b);
-          padding: 1rem 2rem;
-          border-radius: 8px;
+          background: rgba(0, 0, 0, 0.8);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border: 1px solid rgba(0, 204, 255, 0.3);
+          padding: 2rem;
+          border-radius: 12px;
           text-align: center;
           z-index: 10000;
-          font-family: 'Roboto', sans-serif;
-          color: #fff;
+          color: #00ccff;
+          box-shadow: 0 0 30px rgba(0, 204, 255, 0.2);
         }
         .countdown-text {
-          margin: 0 0 1rem 0;
+          margin: 0 0 1.5rem 0;
           font-size: 1.5rem;
+          font-weight: 700;
+          letter-spacing: 2px;
         }
         .skip-button {
-          padding: 0.5rem 1rem;
-          border: none;
-          background-color: #1a1a1a;
-          color: #fff;
+          padding: 0.75rem 1.5rem;
+          border: 1px solid #00ccff;
+          background-color: transparent;
+          color: #00ccff;
           border-radius: 4px;
           cursor: pointer;
+          font-weight: 600;
+          transition: all 0.3s ease;
+        }
+        .skip-button:hover {
+          background-color: #00ccff;
+          color: #000;
         }
         /* Custom styles for the device-orientation-permission-ui dialog */
         .a-dialog-allow-button {
-          background-color: red !important;
+          background-color: #00ccff !important;
+          color: #000 !important;
+          font-family: var(--font-rajdhani), sans-serif !important;
+          font-weight: 700 !important;
+          border-radius: 4px !important;
+          border: none !important;
+          padding: 10px 20px !important;
+          text-transform: uppercase !important;
         }
         .a-dialog-deny-button {
-          background-color: blue !important;
+          background-color: transparent !important;
+          color: #666 !important;
+          font-family: var(--font-rajdhani), sans-serif !important;
+          border-radius: 4px !important;
+          border: 1px solid #333 !important;
+          padding: 10px 20px !important;
+          text-transform: uppercase !important;
         }
         .a-dialog-ok-button {
-          background-color: green !important;
+          background-color: #d813ff !important;
+          color: #fff !important;
+          font-family: var(--font-rajdhani), sans-serif !important;
+          font-weight: 700 !important;
+          border-radius: 4px !important;
+          border: none !important;
+          padding: 10px 20px !important;
         }
         /* Force the modal container to show with a visible background and auto height */
         .a-dialog {
           display: block !important;
-          min-width: 250px;
-          min-height: 50px;
+          min-width: 300px;
           height: auto !important;
-          background-color: rgba(255, 255, 255, 0.9) !important;
-          padding: 20px !important;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+          background: rgba(5, 10, 20, 0.95) !important;
+          backdrop-filter: blur(20px) !important;
+          -webkit-backdrop-filter: blur(20px) !important;
+          padding: 30px !important;
+          border-radius: 12px;
+          border: 1px solid rgba(0, 204, 255, 0.3) !important;
+          box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(0, 204, 255, 0.1) !important;
+          color: #fff !important;
+          top: 50% !important;
+          left: 50% !important;
+          transform: translate(-50%, -50%) !important;
         }
         /* Additional selectors for the modal text */
-        .a-dialog-content,
-        .a-dialog-message {
+        .a-dialog-content {
           display: block !important;
-          color: #000 !important;
+          color: #fff !important;
+          font-family: var(--font-rajdhani), sans-serif !important;
           font-size: 16px !important;
-          line-height: 1.5 !important;
-          padding: 10px !important;
+          line-height: 1.6 !important;
+          padding: 0 !important;
+          margin-bottom: 25px !important;
           opacity: 1 !important;
           visibility: visible !important;
+          text-align: center !important;
+          letter-spacing: 0.5px !important;
+        }
+        .a-dialog-buttons {
+          display: flex !important;
+          justify-content: space-between !important;
+          gap: 10px !important;
         }
       `}</style>
     </>
