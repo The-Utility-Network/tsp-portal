@@ -229,7 +229,7 @@ const Reserve = () => {
 
       const hasRole = await readContract({
         contract,
-        method: 'ieHasRole',
+        method: 'omHasRole',
         params: [CHIEF_OF_POLICE_ROLE, address as string],
       });
 
