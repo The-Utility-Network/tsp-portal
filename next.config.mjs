@@ -8,6 +8,10 @@ const __dirname = dirname(__filename);
 
 const nextConfig = {
   outputFileTracingRoot: '.',
+  eslint: {
+    // Workaround for ESLint 8 circular structure issue with Next.js 15
+    ignoreDuringBuilds: true,
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.module.rules.push({

@@ -598,15 +598,15 @@ const Reserve = () => {
             params: [],
           });
           break;
-        case 'sendFundsToUtilityCoDiamond':
-          if (!functionInputs.percentage || !functionInputs.note) {
-            alert('Please provide both percentage and note.');
+        case 'sendFundsToLochNess':
+          if (!functionInputs.lochNessAddress || !functionInputs.percentage || !functionInputs.note) {
+            alert('Please provide address, percentage, and note.');
             return;
           }
           tx = await prepareContractCall({
             contract,
-            method: 'sendFundsToUtilityCoDiamond',
-            params: [BigInt(functionInputs.percentage), functionInputs.note],
+            method: 'sendFundsToLochNess',
+            params: [functionInputs.lochNessAddress, BigInt(functionInputs.percentage), functionInputs.note],
           });
           break;
         case 'wipeBeneficiaries':
@@ -935,20 +935,40 @@ const Reserve = () => {
       {/* Write Function Modal */}
       <Modal open={openWriteFunctionDialog} onClose={() => setOpenWriteFunctionDialog(false)} title={selectedFunction.replace(/([A-Z])/g, ' $1').trim()}>
         <div className="space-y-4">
-          {(selectedFunction === 'depositFunds' || selectedFunction === 'sendFundsToUtilityCoDiamond') && (
+          {selectedFunction === 'depositFunds' && (
             <div>
-              <label className="block text-xs font-mono text-gray-500 mb-1">
-                {selectedFunction === 'sendFundsToUtilityCoDiamond' ? 'PERCENTAGE' : 'AMOUNT (ETH)'}
-              </label>
+              <label className="block text-xs font-mono text-gray-500 mb-1">AMOUNT (ETH)</label>
               <input
                 type="number"
-                onChange={(e) => setFunctionInputs({ ...functionInputs, [selectedFunction === 'sendFundsToUtilityCoDiamond' ? 'percentage' : 'amount']: e.target.value })}
+                onChange={(e) => setFunctionInputs({ ...functionInputs, amount: e.target.value })}
                 className="w-full bg-black border border-white/10 rounded p-2 text-white focus:border-blue-500 outline-none transition-colors"
                 placeholder="0"
               />
             </div>
           )}
-          {(selectedFunction === 'depositFunds' || selectedFunction === 'sendFundsToUtilityCoDiamond') && (
+          {selectedFunction === 'sendFundsToLochNess' && (
+            <>
+              <div>
+                <label className="block text-xs font-mono text-gray-500 mb-1">LOCH NESS ADDRESS</label>
+                <input
+                  type="text"
+                  onChange={(e) => setFunctionInputs({ ...functionInputs, lochNessAddress: e.target.value })}
+                  className="w-full bg-black border border-white/10 rounded p-2 text-white focus:border-blue-500 outline-none transition-colors"
+                  placeholder="0x..."
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-mono text-gray-500 mb-1">PERCENTAGE</label>
+                <input
+                  type="number"
+                  onChange={(e) => setFunctionInputs({ ...functionInputs, percentage: e.target.value })}
+                  className="w-full bg-black border border-white/10 rounded p-2 text-white focus:border-blue-500 outline-none transition-colors"
+                  placeholder="0"
+                />
+              </div>
+            </>
+          )}
+          {(selectedFunction === 'depositFunds' || selectedFunction === 'sendFundsToLochNess') && (
             <div>
               <label className="block text-xs font-mono text-gray-500 mb-1">NOTE</label>
               <input
