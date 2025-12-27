@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getOpenAIClient } from "../../../utils/createOpenAIClient";
 
 export async function POST(req: NextRequest) {
-  const client = getOpenAIClient();
+  const client = getOpenAIClient() as any;
 
   try {
     const { action, threadId, message } = await req.json();
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
       const stream = new ReadableStream({
         async start(controller) {
-          await client.runAssistant(threadId, (chunk) => {
+          await client.runAssistant(threadId, (chunk: any) => {
             controller.enqueue(`data: ${JSON.stringify({ text: chunk })}\n\n`);
           });
           controller.enqueue(`data: [DONE]\n\n`);
