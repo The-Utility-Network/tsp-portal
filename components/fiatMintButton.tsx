@@ -54,7 +54,7 @@ function FiatMinting({ Batch, tokens, whitelist, referral, batchPrice }: { Batch
         const fiatStatus = await getBuyWithFiatStatus({ client, intentId });
         if (fiatStatus.status === "ON_RAMP_TRANSFER_COMPLETED") {
           resolve();
-        } else if (fiatStatus.status === "PAYMENT_FAILED" || fiatStatus.status === "NONE") {
+        } else if ((fiatStatus.status as string) === "PAYMENT_FAILED" || fiatStatus.status === "NONE") {
           reject(new Error(`Onramp failed with status: ${fiatStatus.status}`));
         } else {
           setTimeout(checkStatus, 5000); // Poll every 5 seconds

@@ -121,7 +121,7 @@ function Minting({
         const fiatStatus = await getBuyWithFiatStatus({ client, intentId });
         if (fiatStatus.status === "ON_RAMP_TRANSFER_COMPLETED") {
           resolve();
-        } else if (fiatStatus.status === "PAYMENT_FAILED" || fiatStatus.status === "ON_RAMP_TRANSFER_FAILED") {
+        } else if ((fiatStatus.status as string) === "PAYMENT_FAILED" || (fiatStatus.status as string) === "ON_RAMP_TRANSFER_FAILED") {
           reject(new Error(`Onramp failed with status: ${fiatStatus.status}`));
         } else {
           setTimeout(checkStatus, 5000);
